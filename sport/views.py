@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth import login
+from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
 from django.db.models import Count
 from google import genai
@@ -45,7 +46,6 @@ def admin_dashboard(request):
         activity_counts.append(count)
 
     context = {
-        # Statistics
         'users_count': Profile.objects.count(),
         'schedules_count': Schedule.objects.count(),
         'exercises_count': Exercise.objects.count(),
@@ -61,7 +61,6 @@ def admin_dashboard(request):
         'recent_schedules': Schedule.objects.order_by('-created_at')[:5],
         'recent_blogs': BlogPost.objects.order_by('-created_at')[:5],
 
-        # Chart Data
         'activity_labels': json.dumps(activity_labels),
         'activity_counts': json.dumps(activity_counts),
     }
@@ -455,18 +454,28 @@ def admin_user_edit(request, pk):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=user_obj)
         p_form = ProfileUpdateForm(request.POST, instance=profile_obj)
+        pass_form = SetPasswordForm(user_obj, request.POST)
+
+        # Only validate/save password if the fields are actually filled
+        password_provided = any(request.POST.get(f) for f in ['new_password1', 'new_password2'])
+
         if u_form.is_valid() and p_form.is_valid():
-            u_form.save()
-            p_form.save()
-            messages.success(request, "User and Profile updated successfully.")
-            return redirect('admin_user_list')
+            if not password_provided or pass_form.is_valid():
+                u_form.save()
+                p_form.save()
+                if password_provided:
+                    pass_form.save()
+                messages.success(request, "User and Profile updated successfully.")
+                return redirect('admin_user_list')
     else:
         u_form = UserUpdateForm(instance=user_obj)
         p_form = ProfileUpdateForm(instance=profile_obj)
+        pass_form = SetPasswordForm(user_obj)
     
     return render(request, 'sport/admin_user_form.html', {
         'u_form': u_form,
         'p_form': p_form,
+        'pass_form': pass_form,
         'title': f'Edit User: {user_obj.username}'
     })
 

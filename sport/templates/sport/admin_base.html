@@ -125,6 +125,66 @@
 .btn-action { background: #f1f3f5; color: #2c3e50; padding: 12px; border-radius: 6px; text-decoration: none; text-align: center; font-size: 0.9rem; transition: 0.2s; }
 .btn-action:hover { background: #e9ecef; }
 
+/* Advanced Form Styles */
+.admin-form-container {
+    max-width: 850px;
+    margin: 0 auto;
+}
+.admin-form-section {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    border: 1px solid #f0f0f0;
+}
+.admin-form-section h5 {
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #edf2f7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.admin-content form p {
+    margin-bottom: 1.5rem;
+}
+.admin-content form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 0.9rem;
+}
+.admin-content form input:not([type="checkbox"]):not([type="radio"]), 
+.admin-content form textarea, 
+.admin-content form select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.95rem;
+}
+.admin-content form input:focus, 
+.admin-content form textarea:focus, 
+.admin-content form select:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+.admin-form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding: 20px 0;
+}
+.errorlist { color: #e53e3e; font-size: 0.85rem; list-style: none; padding: 0; margin: 5px 0; }
+.helptext { color: #718096; font-size: 0.8rem; margin-top: 5px; display: block; }
+
 @media (max-width: 992px) {
     .admin-container { flex-direction: column; margin: 0; }
     .admin-sidebar { 

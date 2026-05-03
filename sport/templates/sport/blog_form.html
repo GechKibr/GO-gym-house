@@ -1,16 +1,18 @@
 {% extends 'sport/admin_base.html' %}
 {% block admin_content %}
-    <h2>{{ title }}</h2>
-    <div class="card shadow-sm mt-3">
-        <div class="card-body">
-            <form method="post">
-                {% csrf_token %}
+    <div class="admin-form-container">
+        <h2 class="mb-4">{{ title }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="admin-form-section">
+                <h5>📝 Article Content</h5>
                 {{ form.as_p }}
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-success">Save Post</button>
-                    <a href="{% url 'admin_blog_list' %}" class="btn btn-secondary">Cancel</a>
-                </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="admin-form-actions">
+                <button type="submit" class="btn btn-success px-4 py-2 fw-bold shadow-sm">Save Post</button>
+                <a href="{% url 'admin_blog_list' %}" class="btn btn-outline-secondary px-4 py-2">Cancel</a>
+            </div>
+        </form>
     </div>
 {% endblock %}

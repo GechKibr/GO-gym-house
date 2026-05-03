@@ -11,9 +11,12 @@ from .models import (
     Achievement
 )
 
-# =====================================================
-# 👤 USER REGISTRATION FORM
-# =====================================================
+def add_form_control(fields):
+    for field in fields.values():
+        if not isinstance(field.widget, (forms.CheckboxInput, forms.RadioSelect)):
+            classes = field.widget.attrs.get('class', '')
+            field.widget.attrs['class'] = f"{classes} form-control".strip()
+
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -24,6 +27,10 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_form_control(self.fields)
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -38,9 +45,6 @@ class UserRegisterForm(UserCreationForm):
         return user
 
 
-# =====================================================
-# 👤 USER UPDATE FORM
-# =====================================================
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
@@ -49,10 +53,11 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ["username", "email"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_form_control(self.fields)
 
-# =====================================================
-# 👤 PROFILE UPDATE FORM
-# =====================================================
+
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
@@ -67,10 +72,11 @@ class ProfileUpdateForm(forms.ModelForm):
             "training_level",
         ]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_form_control(self.fields)
 
-# =====================================================
-# 📅 SCHEDULE FORM (Admin Only)
-# =====================================================
+
 
 class ScheduleForm(forms.ModelForm):
     class Meta:
@@ -82,10 +88,11 @@ class ScheduleForm(forms.ModelForm):
             "description": forms.Textarea(attrs={"rows": 4}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_form_control(self.fields)
 
-# =====================================================
-# 🏋️ EXERCISE FORM (Admin Only)
-# =====================================================
+
 
 class ExerciseForm(forms.ModelForm):
     class Meta:
@@ -97,15 +104,20 @@ class ExerciseForm(forms.ModelForm):
             "steps": forms.Textarea(attrs={"rows": 4}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_form_control(self.fields)
 
-# =====================================================
-# 🎥 SPORT VIDEO FORM (Admin Only)
-# =====================================================
+
 
 class SportVideoForm(forms.ModelForm):
     class Meta:
         model = SportVideo
         fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_form_control(self.fields)
 
 
 class BlogPostForm(forms.ModelForm):
@@ -115,6 +127,10 @@ class BlogPostForm(forms.ModelForm):
         widgets = {
             "content": forms.Textarea(attrs={"rows": 6}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_form_control(self.fields)
 
 
 class NotificationForm(forms.ModelForm):

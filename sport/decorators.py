@@ -2,7 +2,6 @@ from django.shortcuts import redirect
 
 def admin_required(view_func):
     def wrapper(request, *args, **kwargs):
-        # Check for profile role OR if user is a staff/superuser
         is_admin = request.user.is_staff or (hasattr(request.user, 'profile') and request.user.profile.role == 'ADMIN')
         if is_admin:
             return view_func(request, *args, **kwargs)
