@@ -1,18 +1,74 @@
 {% extends 'sport/student_base.html' %}
 {% block student_content %}
 
-<h2>Your Profile 👤</h2>
+<div class="container" style="max-width:900px;margin-top:40px;">
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        <p><strong>Username:</strong> {{ profile.user.username }}</p>
-        <p><strong>Age:</strong> {{ profile.age }}</p>
-        <p><strong>Weight:</strong> {{ profile.weight }} kg</p>
-        <p><strong>Height:</strong> {{ profile.height }} cm</p>
-        <p><strong>Training Level:</strong> {{ profile.training_level }}</p>
-        <p><strong>Fitness Goal:</strong> {{ profile.fitness_goal }}</p>
-        <p><strong>Joined:</strong> {{ profile.joined_date }}</p>
+    <!-- PROFILE HEADER -->
+    <div class="card shadow-lg mb-4 border-0">
+        <div class="card-body text-center">
+
+            <div style="font-size:70px;">👤</div>
+
+            <h3 class="mt-2">{{ profile.user.username }}</h3>
+            <p class="text-muted">Member since {{ profile.joined_date }}</p>
+
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-sm mt-2">
+                Edit Profile ✏️
+            </a>
+
+        </div>
     </div>
+
+    <!-- PROFILE DETAILS -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <h5 class="mb-4">Personal Information</h5>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <strong>Age:</strong>
+                    <span class="badge bg-secondary">{{ profile.age }} years</span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Weight:</strong>
+                    <span class="badge bg-info text-dark">{{ profile.weight }} kg</span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Height:</strong>
+                    <span class="badge bg-warning text-dark">{{ profile.height }} cm</span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Training Level:</strong>
+                    <span class="badge bg-success">{{ profile.training_level }}</span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Fitness Goal:</strong>
+                    <span class="badge bg-primary">{{ profile.fitness_goal }}</span>
+                </div>
+
+                {% if profile.height and profile.weight %}
+                <div class="col-md-6 mb-3">
+                    <strong>BMI:</strong>
+                    <span class="badge bg-danger">
+                        {{ profile.weight|floatformat:1|add:"0" }}
+                    </span>
+                    <small class="text-muted d-block mt-1">
+                        (You can calculate BMI in backend for accuracy)
+                    </small>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}

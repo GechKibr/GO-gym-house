@@ -1,0 +1,24 @@
+{% extends "sport/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">{{ title }}</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light"><strong>Account Settings</strong></div>
+                    <div class="card-body">{{ u_form.as_p }}</div>
+                </div>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light"><strong>Physical Profile & Goals</strong></div>
+                    <div class="card-body">{{ p_form.as_p }}</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+                <a href="{% url 'profile' %}" class="btn btn-outline-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

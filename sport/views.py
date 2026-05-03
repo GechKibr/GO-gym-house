@@ -29,9 +29,6 @@ from .models import (
 )
 
 
-# =====================================================
-# 🔐 ADMIN DASHBOARD
-# =====================================================
 
 @login_required
 @admin_required
@@ -72,9 +69,6 @@ def admin_dashboard(request):
     return render(request, 'sport/admin_dashboard.html', context)
 
     
-# =====================================================
-# 👤 USER REGISTRATION
-# =====================================================
 
 def register(request):
     if request.method == 'POST':
@@ -119,9 +113,6 @@ def home(request):
     return render(request, 'sport/home.html', context)
 
 
-# =====================================================
-# 👤 PROFILE VIEW
-# =====================================================
 
 @login_required
 def profile_view(request):
@@ -132,9 +123,35 @@ def profile_view(request):
     })
 
 
-# =====================================================
-# 📅 SCHEDULE LIST
-# =====================================================
+@login_required
+def edit_profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, instance=profile)
+
+        # Security: Prevent non-admins from changing their own role
+        if not request.user.is_staff and profile.role != 'ADMIN':
+            p_form.fields.pop('role', None)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, "Your profile has been updated!")
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=profile)
+        if not request.user.is_staff and profile.role != 'ADMIN':
+            p_form.fields.pop('role', None)
+
+    return render(request, 'sport/profile_form.html', {
+        'u_form': u_form,
+        'p_form': p_form,
+        'title': 'Edit Profile'
+    })
+
 
 def schedule_list(request):
     schedules = Schedule.objects.all().order_by('date', 'start_time')
@@ -192,9 +209,6 @@ def admin_schedule_list_view(request):
     })
 
 
-# =====================================================
-# 🏋️ EXERCISE LIST
-# =====================================================
 
 def exercise_list(request):
     exercises = Exercise.objects.all()
@@ -252,9 +266,6 @@ def admin_exercise_list_view(request):
     })
 
 
-# =====================================================
-# 🏋️ EXERCISE DETAIL
-# =====================================================
 
 def exercise_detail(request, pk):
     exercise = get_object_or_404(Exercise, pk=pk)
@@ -266,9 +277,6 @@ def exercise_detail(request, pk):
     })
 
 
-# =====================================================
-# 📝 BLOG LIST
-# =====================================================
 
 def blog_list(request):
     posts = BlogPost.objects.select_related('author').all().order_by('-created_at')
@@ -328,9 +336,6 @@ def admin_blog_delete(request, pk):
     })
 
 
-# =====================================================
-# 📝 BLOG DETAIL + COMMENTS
-# =====================================================
 
 def blog_detail(request, pk):
     post = get_object_or_404(BlogPost, pk=pk)
@@ -357,9 +362,6 @@ def blog_detail(request, pk):
     })
 
 
-# =====================================================
-# ✅ MARK ATTENDANCE
-# =====================================================
 
 @login_required
 def mark_attendance(request, schedule_id):
@@ -424,9 +426,6 @@ def ai_chat(request):
     return render(request, 'sport/ai_chat.html', {'response': response_text, 'history': history, 'user_input': user_input})
 
 
-# =====================================================
-# 👤 ADMIN USER MANAGEMENT
-# =====================================================
 
 @login_required
 @admin_required
