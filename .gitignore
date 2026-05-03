@@ -1,4 +1,5 @@
 .env
-main/__pycache___
-sport/__pycache___
-sport/migrations/__pycache___
+main/__pycache___/
+main/migrations/__pycache___/
+sport/__pycache___/
+sport/migrations/__pycache___/
