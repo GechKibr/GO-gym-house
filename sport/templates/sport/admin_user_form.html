@@ -1,0 +1,24 @@
+{% extends 'sport/admin_base.html' %}
+{% block admin_content %}
+    <h2>{{ title }}</h2>
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% if form %}
+                    {{ form.as_p }}
+                {% else %}
+                    <h5>Account Info</h5>
+                    {{ u_form.as_p }}
+                    <hr>
+                    <h5>Profile Info</h5>
+                    {{ p_form.as_p }}
+                {% endif %}
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">Save User</button>
+                    <a href="{% url 'admin_user_list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

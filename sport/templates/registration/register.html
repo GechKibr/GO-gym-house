@@ -1,0 +1,174 @@
+{% extends 'sport/base.html' %}
+
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .register-container {
+        max-width: 500px;
+        margin: 80px auto;
+        padding: 40px;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .register-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #2c5364;
+        font-weight: 600;
+    }
+
+    form div {
+        margin-bottom: 18px;
+    }
+
+    form label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #333;
+        font-size: 14px;
+    }
+
+    form input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        transition: 0.3s ease;
+    }
+
+    form input:focus {
+        border-color: #2c5364;
+        outline: none;
+        box-shadow: 0 0 8px rgba(44,83,100,0.3);
+    }
+
+    .errorlist {
+        color: #dc3545;
+        list-style: none;
+        padding: 0;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .non-field-errors {
+        background: #ffe6e6;
+        color: #dc3545;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .btn-register {
+        width: 100%;
+        margin-top: 15px;
+        padding: 13px;
+        background: linear-gradient(45deg, #28a745, #1e7e34);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(40,167,69,0.4);
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #555;
+    }
+
+    .login-link a {
+        color: #2c5364;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="register-container">
+
+    <h2 class="register-title">
+        🏋️ Join Our Sport Community
+    </h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="non-field-errors">
+            {{ form.non_field_errors }}
+        </div>
+
+        <div>
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+
+        <div>
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+
+        <div>
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+
+        <div>
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+
+        <div>
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+        </div>
+
+        <div>
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+        </div>
+
+        <button type="submit" class="btn-register">
+            Register
+        </button>
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+<h2>Sport Blog & Tips 📝</h2>
+{% if is_admin_view %}
+<div class="mb-3">
+    <a href="{% url 'admin_blog_add' %}" class="btn btn-primary">Add New Blog Post</a>
+</div>
+{% endif %}
+{% for post in posts %}
+<div class="card mb-3 shadow-sm">
+    <div class="card-body">
+        <h5>{{ post.title }}</h5>
+        <p>By {{ post.author.username }} | {{ post.created_at }}</p>
+        <a href="{% url 'blog_detail' post.id %}" class="btn btn-primary btn-sm">Read More</a>
+        {% if is_admin_view %}
+        <a href="{% url 'admin_blog_edit' post.id %}" class="btn btn-warning btn-sm ms-2">Edit</a>
+        <a href="{% url 'admin_blog_delete' post.id %}" class="btn btn-danger btn-sm ms-2">Delete</a>
+        {% endif %}
+    </div>
+</div>
+{% empty %}
+<p>No blog posts yet.</p>
+{% endfor %}

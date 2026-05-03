@@ -1,0 +1,16 @@
+{% extends 'sport/admin_base.html' %}
+{% block admin_content %}
+    <h2>{{ title }}</h2>
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">Save Post</button>
+                    <a href="{% url 'admin_blog_list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

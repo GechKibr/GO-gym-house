@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ጎህ ሲቀድ Sport Portal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+}
+
+/* ================= HERO SECTION ================= */
+
+.hero {
+    text-align: center;
+    padding: 120px 20px 80px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #00f5a0;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: #dcdcdc;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.4s ease;
+}
+
+.btn-login {
+    background: transparent;
+    border: 2px solid #00f5a0;
+    color: #00f5a0;
+}
+
+.btn-login:hover {
+    background: #00f5a0;
+    color: #0f2027;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 245, 160, 0.4);
+}
+
+.btn-register {
+    background: #00f5a0;
+    color: #0f2027;
+}
+
+.btn-register:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 245, 160, 0.4);
+}
+
+/* ================= FEATURES SECTION ================= */
+
+.features {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
+    border-radius: 15px;
+    transition: 0.4s;
+    backdrop-filter: blur(8px);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    background: rgba(0,245,160,0.1);
+}
+
+.card h3 {
+    margin-bottom: 15px;
+    color: #00f5a0;
+}
+
+.card p {
+    font-size: 0.95rem;
+    color: #ddd;
+}
+
+/* ================= STATS SECTION ================= */
+
+.stats {
+    padding: 70px 20px;
+    background: rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 60px;
+}
+
+.stat h3 {
+    font-size: 2.5rem;
+    color: #00f5a0;
+}
+
+.stat p {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+/* ================= CTA SECTION ================= */
+
+.cta {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.cta h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #bfbfbf;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media(max-width:768px){
+    .hero h1 { font-size: 2.3rem; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Welcome to <span>ጎህ ሲቀድ Sport Portal</span></h1>
+    <p>
+        Your smart university fitness companion. Track workouts, manage schedules,
+        read sport blogs, and get AI-powered training advice.
+    </p>
+
+    <div class="buttons">
+        <a href="{% url 'login' %}" class="btn btn-login">Login</a>
+        <a href="{% url 'register' %}" class="btn btn-register">Register</a>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <h2>Core Features</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>🏋 Workout Management</h3>
+            <p>Create and track personalized exercise routines and improve performance.</p>
+        </div>
+
+        <div class="card">
+            <h3>📅 Schedule Planner</h3>
+            <p>Organize training sessions and university sport activities efficiently.</p>
+        </div>
+
+        <div class="card">
+            <h3>📝 Sport Blogs</h3>
+            <p>Read educational articles about fitness, nutrition, and sport science.</p>
+        </div>
+
+        <div class="card">
+            <h3>🤖 AI Fitness Assistant</h3>
+            <p>Get instant smart recommendations powered by Google Gemini AI.</p>
+        </div>
+
+        <div class="card">
+            <h3>👥 Role-Based Access</h3>
+            <p>Separate dashboards for students and administrators.</p>
+        </div>
+
+        <div class="card">
+            <h3>📊 Performance Tracking</h3>
+            <p>Monitor progress and improve consistency over time.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <h2>Start Your Fitness Journey Today 🚀</h2>
+    <div class="buttons">
+        <a href="{% url 'register' %}" class="btn btn-register">Join Now</a>
+    </div>
+</section>
+
+<div class="footer">
+    © 2026 All rights reserved | ጎህ ሲቀድ Sport Portal.
+</div>
+
+</body>
+</html>

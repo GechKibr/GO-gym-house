@@ -1,0 +1,29 @@
+{% extends 'sport/student_base.html' %}
+{% block student_content %}
+
+<h2 class="mb-4">Welcome to Campus Morning Fitness 💪</h2>
+
+<h4>📅 Today's Schedule</h4>
+{% for schedule in schedules %}
+<div class="card mb-3 shadow-sm">
+    <div class="card-body">
+        <h5>{{ schedule.title }}</h5>
+        <p><strong>Focus:</strong> {{ schedule.focus_area }}</p>
+        <p><strong>Duration:</strong> {{ schedule.duration_minutes }} minutes</p>
+        <p><strong>Start:</strong> {{ schedule.start_time }}</p>
+    </div>
+</div>
+{% empty %}
+<p>No training scheduled today.</p>
+{% endfor %}
+
+<hr>
+
+<h4>📢 Notifications</h4>
+{% for note in notifications %}
+<div class="alert alert-info">
+    {{ note.message }}
+</div>
+{% endfor %}
+
+{% endblock %}

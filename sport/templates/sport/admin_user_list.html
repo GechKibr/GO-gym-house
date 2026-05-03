@@ -1,0 +1,43 @@
+{% extends 'sport/admin_base.html' %}
+{% block admin_content %}
+<div class="detail-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>User Management 👥</h2>
+        <a href="{% url 'admin_user_add' %}" class="btn btn-primary">Add New User</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Level</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_obj in users %}
+                <tr>
+                    <td>{{ user_obj.username }}</td>
+                    <td>{{ user_obj.email }}</td>
+                    <td>
+                        <span class="badge {% if user_obj.profile.role == 'ADMIN' %}bg-danger{% else %}bg-info{% endif %}">
+                            {{ user_obj.profile.role }}
+                        </span>
+                    </td>
+                    <td>{{ user_obj.profile.training_level }}</td>
+                    <td>
+                        <a href="{% url 'admin_user_edit' user_obj.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        {% if user_obj != request.user %}
+                        <a href="{% url 'admin_user_delete' user_obj.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

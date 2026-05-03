@@ -1,0 +1,11 @@
+{% extends is_admin_view|yesno:"sport/admin_base.html,sport/student_base.html" %}
+
+{% block content %}
+    {{ block.super }}
+{% endblock %}
+
+{% block admin_content %}{% include "sport/_schedule_content.html" %}{% endblock %}
+
+{% block student_content %}
+    {% include "sport/_schedule_content.html" %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'sport/admin_base.html' %}
+{% block admin_content %}
+<div class="detail-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Attendance Tracking 📋</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Student</th>
+                    <th>Schedule / Session</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in attendances %}
+                <tr>
+                    <td>{{ record.student.username }}</td>
+                    <td>{{ record.schedule.title }}</td>
+                    <td>{{ record.date }}</td>
+                    <td>
+                        <span class="badge {% if record.present %}bg-success{% else %}bg-danger{% endif %}">
+                            {{ record.present|yesno:"Present,Absent" }}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" class="text-center">No attendance records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

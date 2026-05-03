@@ -1,0 +1,37 @@
+{% extends 'sport/student_base.html' %}
+{% block student_content %}
+    <h2>AI Sport Coach 🤖</h2>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="message" class="form-label">Ask your coach anything (e.g., "Give me a 10 min warmup")</label>
+                    <textarea name="message" id="message" class="form-control" rows="3" required>{{ user_input|default:'' }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Ask Coach</button>
+            </form>
+        </div>
+    </div>
+
+    {% if response %}
+    <div class="card border-primary mb-4 shadow">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Coach Response:</h5>
+            <p class="card-text" style="white-space: pre-wrap;">{{ response }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <h4>Recent History</h4>
+    <div class="list-group">
+        {% for chat in history %}
+        <div class="list-group-item">
+            <p class="mb-1"><strong>You:</strong> {{ chat.message }}</p>
+            <small class="text-muted"><strong>Coach:</strong> {{ chat.response|truncatechars:100 }}</small>
+        </div>
+        {% empty %}
+        <p class="text-muted">No history yet.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

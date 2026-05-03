@@ -1,0 +1,18 @@
+{% extends 'sport/student_base.html' %}
+{% block student_content %}
+
+<h2>Your Profile 👤</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <p><strong>Username:</strong> {{ profile.user.username }}</p>
+        <p><strong>Age:</strong> {{ profile.age }}</p>
+        <p><strong>Weight:</strong> {{ profile.weight }} kg</p>
+        <p><strong>Height:</strong> {{ profile.height }} cm</p>
+        <p><strong>Training Level:</strong> {{ profile.training_level }}</p>
+        <p><strong>Fitness Goal:</strong> {{ profile.fitness_goal }}</p>
+        <p><strong>Joined:</strong> {{ profile.joined_date }}</p>
+    </div>
+</div>
+
+{% endblock %}

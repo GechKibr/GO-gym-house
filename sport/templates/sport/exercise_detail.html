@@ -1,0 +1,117 @@
+{% extends 'sport/student_base.html' %}
+{% block student_content %}
+
+<style>
+.exercise-hero {
+    background: linear-gradient(135deg, #0f2027, #203a43);
+    color: white;
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.exercise-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.meta-badge {
+    background: rgba(255,255,255,0.15);
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+}
+
+.exercise-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.content-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.content-card h5 {
+    margin-top: 20px;
+    color: #0f2027;
+    font-weight: 600;
+}
+
+.video-card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.video-card h6 {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+iframe {
+    border-radius: 10px;
+}
+
+@media (max-width: 992px) {
+    .exercise-content {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<!-- HERO SECTION -->
+<div class="exercise-hero">
+    <h2>{{ exercise.name }}</h2>
+
+    <div class="exercise-meta">
+        <div class="meta-badge">🏷 Category: {{ exercise.category }}</div>
+        <div class="meta-badge">⏱ {{ exercise.duration_minutes }} mins</div>
+        <div class="meta-badge">🔥 {{ exercise.difficulty_level }}</div>
+    </div>
+</div>
+
+<div class="exercise-content">
+
+    <!-- LEFT SIDE -->
+    <div class="content-card">
+        <h5>📖 Description</h5>
+        <p>{{ exercise.description }}</p>
+
+        <h5>💪 Benefits</h5>
+        <p>{{ exercise.benefits }}</p>
+
+        <h5>📝 Steps</h5>
+        <p>{{ exercise.steps|linebreaks }}</p>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div>
+        <h4 class="mb-3">🎥 Training Videos</h4>
+
+        {% for video in videos %}
+        <div class="video-card">
+            <h6>{{ video.title }}</h6>
+            <iframe width="100%" height="220"
+                src="{{ video.youtube_url|cut:'watch?v='|add:'embed/' }}"
+                frameborder="0"
+                allowfullscreen>
+            </iframe>
+        </div>
+        {% empty %}
+        <div class="video-card">
+            <p class="text-muted">No videos available.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

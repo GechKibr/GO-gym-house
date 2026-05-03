@@ -1,0 +1,24 @@
+<h2>Exercise Library 💪</h2>
+{% if is_admin_view %}
+<div class="mb-3">
+    <a href="{% url 'admin_exercise_add' %}" class="btn btn-primary">Add New Exercise</a>
+</div>
+{% endif %}
+<div class="row">
+{% for exercise in exercises %}
+<div class="col-md-4 mb-3">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5>{{ exercise.name }}</h5>
+            <p><strong>Category:</strong> {{ exercise.category }}</p>
+            <p><strong>Duration:</strong> {{ exercise.duration_minutes }} min</p>
+            <a href="{% url 'exercise_detail' exercise.id %}" class="btn btn-primary btn-sm">View Details</a>
+            {% if is_admin_view %}
+            <a href="{% url 'admin_exercise_edit' exercise.id %}" class="btn btn-warning btn-sm ms-2">Edit</a>
+            <a href="{% url 'admin_exercise_delete' exercise.id %}" class="btn btn-danger btn-sm ms-2">Delete</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>

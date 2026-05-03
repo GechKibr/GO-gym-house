@@ -1,0 +1,170 @@
+{% extends 'sport/admin_base.html' %}
+
+{% block admin_content %}
+<style>
+    /* Dashboard Specific Layout */
+    .dashboard-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+    .activity-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #edf2f7;
+    }
+    .activity-row:last-child { border-bottom: none; }
+    .list-label { font-weight: 700; color: #4a5568; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.025em; }
+    .edit-link { font-size: 0.85rem; color: #3182ce; text-decoration: none; font-weight: 500; }
+    .edit-link:hover { text-decoration: underline; }
+    @media (max-width: 1200px) {
+        .dashboard-details { grid-template-columns: 1fr; }
+    }
+</style>
+        <div class="content-header">
+            <h2>Dashboard Overview 🚀</h2>
+            <p class="text-muted">Welcome back, {{ request.user.username }}</p>
+        </div>
+
+        <!-- Statistics Grid -->
+        <div class="stats-grid">
+            <div class="stat-card bg-primary">
+                <div class="stat-body">
+                    <h3>Total Users</h3>
+                    <h2>{{ users_count }}</h2>
+                </div>
+                <a href="{% url 'admin_user_list' %}" class="stat-footer">Manage Users &rarr;</a>
+            </div>
+
+            <div class="stat-card bg-success">
+                <div class="stat-body">
+                    <h3>Schedules</h3>
+                    <h2>{{ schedules_count }}</h2>
+                </div>
+                <a href="{% url 'admin_schedule_list' %}" class="stat-footer">Manage Schedules &rarr;</a>
+            </div>
+
+            <div class="stat-card bg-warning">
+                <div class="stat-body">
+                    <h3>Exercises</h3>
+                    <h2>{{ exercises_count }}</h2>
+                </div>
+                <a href="{% url 'admin_exercise_list' %}" class="stat-footer">Manage Exercises &rarr;</a>
+            </div>
+
+            <div class="stat-card bg-danger">
+                <div class="stat-body">
+                    <h3>Blogs</h3>
+                    <h2>{{ blogs_count }}</h2>
+                </div>
+                <a href="{% url 'admin_blog_list' %}" class="stat-footer">Manage Blogs &rarr;</a>
+            </div>
+
+            <div class="stat-card bg-info">
+                <div class="stat-body">
+                    <h3>Attendance</h3>
+                    <h2>{{ attendance_count }}</h2>
+                </div>
+            </div>
+
+            <div class="stat-card bg-secondary">
+                <div class="stat-body">
+                    <h3>Achievements</h3>
+                    <h2>{{ achievements_count }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Activity Chart -->
+        <div class="detail-card mb-4">
+            <h3>User Registration Activity (Last 7 Days) 📈</h3>
+            <canvas id="userActivityChart" style="max-height: 250px;"></canvas>
+        </div>
+
+        <!-- Two-Column Layout for Actions and Activity -->
+        <div class="dashboard-details">
+            <!-- Quick Actions Section -->
+            <div class="detail-card">
+                <h3>Quick Actions ⚡</h3>
+                <div class="action-buttons">
+                    <a href="{% url 'admin_user_add' %}" class="btn-action">👤 Create User</a>
+                    <a href="{% url 'admin_schedule_add' %}" class="btn-action">📅 Create Schedule</a>
+                    <a href="{% url 'admin_exercise_add' %}" class="btn-action">🏋️ Add Exercise</a>
+                    <a href="{% url 'admin_blog_add' %}" class="btn-action">📝 New Blog Post</a>
+                </div>
+            </div>
+
+            <!-- Recent Activity Section -->
+            <div class="detail-card">
+                <h3>Recent Activity 📊</h3>
+                <div class="activity-tabs">
+                    <div class="activity-list">
+                        <p class="list-label">Recent Users</p>
+                        {% for user in recent_users %}
+                            <div class="activity-row">
+                                <span>{{ user.username }}</span>
+                                <a href="{% url 'admin_user_edit' user.id %}" class="edit-link">Edit</a>
+                            </div>
+                        {% empty %}
+                            <p class="empty-msg">No recent users.</p>
+                        {% endfor %}
+                    </div>
+                    <div class="activity-list mt-3">
+                        <p class="list-label">Recent Schedules</p>
+                        {% for schedule in recent_schedules %}
+                            <div class="activity-row">
+                                <span>{{ schedule.title }}</span>
+                                <a href="{% url 'admin_schedule_edit' schedule.id %}" class="edit-link">Edit</a>
+                            </div>
+                        {% empty %}
+                            <p class="empty-msg">No recent schedules.</p>
+                        {% endfor %}
+                    </div>
+                    <div class="activity-list mt-3">
+                        <p class="list-label">Recent Blog Posts</p>
+                        {% for blog in recent_blogs %}
+                            <div class="activity-row">
+                                <span>{{ blog.title }}</span>
+                                <a href="{% url 'admin_blog_edit' blog.id %}" class="edit-link">Edit</a>
+                            </div>
+                        {% empty %}
+                            <p class="empty-msg">No recent blogs.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('userActivityChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ activity_labels|safe|default:"[]" }},
+                datasets: [{
+                    label: 'New Registrations',
+                    data: {{ activity_counts|safe|default:"[]" }},
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
